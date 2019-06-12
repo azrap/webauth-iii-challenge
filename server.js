@@ -9,6 +9,8 @@ const session = require('express-session');
 const helmet = require('helmet')
 const jwt = require('jsonwebtoken')
 
+const secrets = require('./config/secrets')
+
 
 
 const sessionConfig={
@@ -37,12 +39,10 @@ server.get('/', (req, res) => {
 
   server.post('/api/register', async (req, res) => {
     try {
-      console.log(req.body)
-        const userInfo= await req.body
-        
+        const userInfo = await req.body
+        console.log(userInfo)
         userInfo.password = await bcrypt.hashSync(userInfo.password, 10)
         const user = await Users.addUser(userInfo)
-        
         res.status(201).json(user);
     }
 
@@ -57,7 +57,7 @@ server.get('/', (req, res) => {
 
   server.post('/api/login', async (req, res) => {
 
-    let {username, password} = req.body;
+    let {username, password, department} = req.body;
     try {
         const user = await Users.findBy( { username })
         if (user && bcrypt.compareSync(password, user[0].password)){
@@ -84,9 +84,11 @@ function generateToken(user){
   const payload = {
     subject: user.id,
     username: user.username,
+    department: user.department,
+
     //... other data like what websites someone has visited
   }
-  const secret = 'secretmessagehere'
+  const secret = secrets.jwtSecret
   const options = {
   expiresIn: '8h',
 }
@@ -98,8 +100,9 @@ server.get('/api/users', restricted, async (req, res) => {
     try {
       
      const users= await Users.findUsers()
+     const userdisplay = {id: users[0].id, username:users[0].username};
     
-      res.status(200).json(users);
+      res.status(200).json(userdisplay);
     } catch (error) {
       
       res.status(500).json({

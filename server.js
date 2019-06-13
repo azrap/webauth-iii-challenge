@@ -2,11 +2,15 @@ const express = require('express');
 const server = express();
 
 // server.use(logger);
-const bcrypt=require('bcrypt');
+const helmet = require('helmet');
+const cors = require('cors');
+const bcrypt=require('bcryptjs');
+const session = require('express-session');
+
 const Users=require('./data/user-model.js');
 const restricted = require('./data/restricted.js')
-const session = require('express-session');
-const helmet = require('helmet')
+
+
 const jwt = require('jsonwebtoken')
 
 const secrets = require('./config/secrets')
@@ -26,7 +30,8 @@ const sessionConfig={
 }
 
 server.use(helmet())
-server.use(express.json()); // built-in mw
+server.use(cors())
+server.use(express.json()); 
 server.use(session(sessionConfig))
 
 

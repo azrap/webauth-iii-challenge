@@ -1,0 +1,24 @@
+{
+  "name": "webauth-i-challenge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/azrap/webauth-i-challenge.git",
+  "author": "azrap <azraap@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "bcryptjs": "^2.4.3",
+    "brcypt": "^1.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "helmet": "^3.18.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.17.5",
+    "nodemon": "^1.19.1",
+    "sqlite3": "^4.0.8"
+  },
+  "scripts": {
+    "server": "nodemon index.js"
+  }
+}
